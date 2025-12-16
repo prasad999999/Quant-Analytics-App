@@ -1,7 +1,6 @@
 # Quant-Analytics-App
 
 
-````markdown
 
 This project consists of:
 - **FastAPI backend** (Uvicorn) running from the project root
@@ -22,7 +21,8 @@ Create and activate a virtual environment:
 
 ```bash
 python -m venv venv
-````
+```
+
 
 **Windows**
 
