@@ -1,3 +1,4 @@
+from analytics.adf import ADFTest
 from fastapi import APIRouter, HTTPException
 from analytics.regression import HedgeRatioOLS
 from analytics.spread import SpreadCalculator
@@ -169,3 +170,20 @@ def alerts(
         symbol_x,
         symbol_y,
     )
+
+
+
+@router.get("/adf-test")
+def adf_test(symbol_x: str, symbol_y: str, timeframe: str = "1m"):
+    try:
+        sc = SpreadCalculator(timeframe=timeframe)
+        spread_df = sc.compute(symbol_x, symbol_y)
+
+        if spread_df.empty:
+            raise ValueError("Spread dataframe is empty")
+
+        adf = ADFTest()
+        return adf.run(spread_df)
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.7">
+  <diagram name="Real-Time Quant Analytics Platform Architecture" id="0">
+    <mxGraphModel dx="1389" dy="811" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="binance" parent="1" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf" value="Binance Futures WebSocket&#xa;@trade stream&#xa;&#xa;• Real-time tick data&#xa;• price, qty, timestamp" vertex="1">
+          <mxGeometry height="90" width="280" x="520" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ingest" parent="1" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366" value="WebSocket Ingestion Service&#xa;binance_ws.py&#xa;&#xa;• Async WS client&#xa;• Heartbeat&#xa;• Auto reconnect" vertex="1">
+          <mxGeometry height="110" width="280" x="520" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="buffer" parent="1" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656" value="Hot Tick Buffer (Memory)&#xa;TickBuffer&#xa;&#xa;• Ring buffer&#xa;• Low latency&#xa;• WS/DB decoupling" vertex="1">
+          <mxGeometry height="110" width="280" x="520" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="duckdb" parent="1" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450" value="DuckDB (Cold Storage)&#xa;&#xa;• ticks table&#xa;• bars_1m&#xa;• bars_5m" vertex="1">
+          <mxGeometry height="110" width="280" x="520" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="analytics" parent="1" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6" value="Analytics Engine&#xa;&#xa;• OLS Hedge Ratio&#xa;• Spread&#xa;• Z-score&#xa;• Correlation&#xa;• ADF Test" vertex="1">
+          <mxGeometry height="140" width="300" x="860" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="alerts" parent="1" style="rounded=1;fillColor=#fad7ac;strokeColor=#b46504" value="Alert Engine&#xa;&#xa;• Z-score threshold&#xa;• Correlation gating&#xa;• Direction inference" vertex="1">
+          <mxGeometry height="110" width="300" x="860" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf" value="FastAPI Backend&#xa;&#xa;/hedge-ratio&#xa;/spread&#xa;/zscore&#xa;/correlation&#xa;/adf-test&#xa;/alerts" vertex="1">
+          <mxGeometry height="160" width="300" x="1200" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="frontend" parent="1" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366" value="Streamlit Dashboard&#xa;&#xa;• Live charts&#xa;• Controls&#xa;• Alerts panel&#xa;• CSV export" vertex="1">
+          <mxGeometry height="110" width="280" x="1210" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="binance" style="endArrow=block" target="ingest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="ingest" style="endArrow=block" target="buffer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="buffer" style="endArrow=block" target="duckdb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="duckdb" style="endArrow=block" target="analytics">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="analytics" style="endArrow=block" target="alerts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="alerts" style="endArrow=block" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="api" style="endArrow=block" target="frontend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
