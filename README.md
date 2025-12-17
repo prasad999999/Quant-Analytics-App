@@ -154,6 +154,8 @@ streamlit run dashboard.py
 
   * `bars_1m`
   * `bars_5m`
+“Tick-level data is ingested directly, which effectively provides higher-resolution data than 1-second bars. Aggregated 1-minute and 5-minute bars are derived via continuous resampling.”
+
 * Metrics:
 
   * OHLC
