@@ -12,6 +12,7 @@ st.set_page_config(
     page_title="Quant Analytics Dashboard",
     layout="wide",
 )
+
 # Auto-refresh every 5 seconds
 st_autorefresh(interval=5000, key="data_refresh")
 
@@ -172,6 +173,31 @@ if alerts:
     st.json(alerts)
 else:
     st.success("✅ No active alerts")
+
+
+
+st.subheader("📉 ADF Test (Spread Stationarity)")
+
+# Initialize session state
+if "adf_result" not in st.session_state:
+    st.session_state.adf_result = None
+
+if st.button("Run ADF Test"):
+    st.session_state.adf_result = requests.get(
+        f"{API_URL}/adf-test",
+        params={
+            "symbol_x": symbol_x,
+            "symbol_y": symbol_y,
+            "timeframe": timeframe,
+        },
+        timeout=10,
+    ).json()
+
+# Show persisted result
+if st.session_state.adf_result is not None:
+    st.json(st.session_state.adf_result)
+
+
 
 # ---------------- Export ----------------
 st.subheader("⬇️ Export Data")
